@@ -239,7 +239,6 @@ GameObject:
   - component: {fileID: 1327497897}
   - component: {fileID: 1327497898}
   - component: {fileID: 1327497899}
-  - component: {fileID: 1327497900}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -327,21 +326,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   astronaut: {fileID: 1327497895}
---- !u!111 &1327497900
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327497895}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: e045c3a33225ecd4cb48eedace6e80f1, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
