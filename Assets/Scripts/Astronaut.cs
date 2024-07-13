@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Astronaut : MonoBehaviour
 {
+    public PortalManager portalManager;
+
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public LayerMask groundLayer;
@@ -40,6 +42,11 @@ public class Astronaut : MonoBehaviour
         // BoxCollider2D 추가
         BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
         collider.size = new Vector2(4.0f, 4.0f); // 적절한 크기 설정
+
+        if (portalManager == null)
+        {
+            portalManager = FindObjectOfType<PortalManager>();
+        }
     }
 
     void Update()
@@ -101,6 +108,12 @@ public class Astronaut : MonoBehaviour
         if (collision.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+
+        if (collision.CompareTag("Portal"))
+        {
+           Debug.Log("포털 호출됨");
+           portalManager.TeleportPlayer(gameObject, collision.GetComponent<Portal>());
         }
     }
 
