@@ -9,6 +9,7 @@ public class Astronaut : MonoBehaviour
     public LayerMask groundLayer;
     public GameObject groundCheck; // GameObject로 변경
     public float groundCheckRadius = 0.2f;
+    public int bullet = 0;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -27,7 +28,7 @@ public class Astronaut : MonoBehaviour
         }
 
         // groundCheck GameObject를 캐릭터의 발 아래에 위치한 빈 GameObject로 설정
-         groundCheck = transform.Find("GroundCheck").gameObject;
+        groundCheck = transform.Find("GroundCheck").gameObject;
         if (groundCheck == null)
         {
             Debug.LogError("Ground check GameObject not assigned in the inspector. Please assign it.");
