@@ -26,17 +26,20 @@ public class Astronaut : MonoBehaviour
             return;
         }
 
+        // Z축 회전 고정
+        rb.freezeRotation = true;
+
         // groundCheck GameObject를 캐릭터의 발 아래에 위치한 빈 GameObject로 설정
-         groundCheck = transform.Find("GroundCheck").gameObject;
+        groundCheck = transform.Find("GroundCheck").gameObject;
         if (groundCheck == null)
         {
             Debug.LogError("Ground check GameObject not assigned in the inspector. Please assign it.");
             return;
         }
 
-         // BoxCollider2D 추가
+        // BoxCollider2D 추가
         BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
-        collider.size = new Vector2(1.0f, 1.0f); // 적절한 크기 설정
+        collider.size = new Vector2(4.0f, 4.0f); // 적절한 크기 설정
     }
 
     void Update()
@@ -68,9 +71,26 @@ public class Astronaut : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("트리거 호출됨");
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            Debug.Log("플랫폼 호출됨");
+            transform.SetParent(collision.transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            transform.SetParent(null);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.CompareTag("Ladder"))
         {
             Debug.Log("사다리 호출됨");
