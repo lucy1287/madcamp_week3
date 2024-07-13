@@ -7,7 +7,7 @@ public class Move : MonoBehaviour {
     public bool LeftMove = false;
     public bool RightMove = false;
     Vector3 moveVelocity = Vector3.zero;
-    float moveSpeed = 10; //버튼을 누르는 동안에 오브젝트의 움직이는 속도
+    float moveSpeed = 30; //버튼을 누르는 동안에 오브젝트의 움직이는 속도
     // Use this for initialization
     void Start () {
         animator = gameObject.GetComponent<Animator>();
