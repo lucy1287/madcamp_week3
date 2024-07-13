@@ -26,6 +26,9 @@ public class Astronaut : MonoBehaviour
             return;
         }
 
+        // Z축 회전 고정
+        rb.freezeRotation = true;
+
         // groundCheck GameObject를 캐릭터의 발 아래에 위치한 빈 GameObject로 설정
          groundCheck = transform.Find("GroundCheck").gameObject;
         if (groundCheck == null)
