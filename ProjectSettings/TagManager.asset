@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - Ground
   - Portal
+  - BulletBox
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 126589579
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 4222092317
     locked: 0

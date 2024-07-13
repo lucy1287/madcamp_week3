@@ -11,6 +11,7 @@ public class Astronaut : MonoBehaviour
     public LayerMask groundLayer;
     public GameObject groundCheck; // GameObject로 변경
     public float groundCheckRadius = 0.2f;
+    public int bullet = 0;
 
     private Rigidbody2D rb;
     private bool isGrounded;
