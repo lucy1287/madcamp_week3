@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Astronaut : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class Astronaut : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public int bullet = 0;
     public int jewel = 0;
+    public GameObject bulletPrefab; // 총알 프리팹 연결
+    public Transform bulletSpawnPoint; // 총알이 생성될 위치
+    public TMP_Text bulletNumText;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -78,6 +82,20 @@ public class Astronaut : MonoBehaviour
             verticalMove = Input.GetAxis("Vertical");
             rb.velocity = new Vector2(rb.velocity.x, verticalMove * moveSpeed);
         }
+
+        // 총 쏘기
+        if (Input.GetKeyDown(KeyCode.W) && bullet > 0)
+        {
+            Shoot();
+        }
+    }
+
+    void Shoot()
+    {
+        // 총알 생성
+        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        bullet--;
+        bulletNumText.text = "Bullet: " + bullet.ToString();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

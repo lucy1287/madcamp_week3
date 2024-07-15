@@ -911,6 +911,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765715654}
   m_CullTransparentMesh: 1
+--- !u!1 &783404598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 783404599}
+  m_Layer: 6
+  m_Name: Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &783404599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783404598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1869952115}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1087448191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1803,12 +1834,20 @@ PrefabInstance:
       value: Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 16.861628
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15.794112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.4
+      value: 12.45
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.25
+      value: 1.103
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1816,31 +1855,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.94630116
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09041049
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.029520217
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.30898
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -8.793
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -6.492
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848752682938588365, guid: 79b19896c99ac44509632e7adbc00e51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 36.665
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2082,6 +2121,9 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   bullet: 0
   jewel: 0
+  bulletPrefab: {fileID: 1078297312970043389, guid: bd13715dd85f74ff084c96f18487494e, type: 3}
+  bulletSpawnPoint: {fileID: 783404599}
+  bulletNumText: {fileID: 765715656}
 --- !u!212 &1869952114
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2148,6 +2190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1350088890}
+  - {fileID: 783404599}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1987072241
