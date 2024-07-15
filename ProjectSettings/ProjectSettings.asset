@@ -815,11 +815,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: db2ff10d-47fd-410b-ba9e-f29ced234044
+  cloudProjectId: 19f04f10-fb35-441e-a32c-e90c534c9759
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: madcamp_week3
-  organizationId: zxcv3e7j
+  organizationId: cookingon942
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
