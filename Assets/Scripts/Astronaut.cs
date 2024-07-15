@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using Photon.Pun;
 
 public class Astronaut : MonoBehaviourPunCallbacks
@@ -13,6 +14,10 @@ public class Astronaut : MonoBehaviourPunCallbacks
     public GameObject groundCheck; // GameObject로 변경
     public float groundCheckRadius = 0.2f;
     public int bullet = 0;
+    public int jewel = 0;
+    public GameObject bulletPrefab; // 총알 프리팹 연결
+    public Transform bulletSpawnPoint; // 총알이 생성될 위치
+    public TMP_Text bulletNumText;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -114,6 +119,20 @@ public class Astronaut : MonoBehaviourPunCallbacks
             verticalMove = Input.GetAxis("Vertical");
             rb.velocity = new Vector2(rb.velocity.x, verticalMove * moveSpeed);
         }
+
+        // 총 쏘기
+        if (Input.GetKeyDown(KeyCode.W) && bullet > 0)
+        {
+            Shoot();
+        }
+    }
+
+    void Shoot()
+    {
+        // 총알 생성
+        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        bullet--;
+        bulletNumText.text = "Bullet: " + bullet.ToString();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -124,23 +143,29 @@ public class Astronaut : MonoBehaviourPunCallbacks
             Debug.Log("플랫폼 호출됨");
             transform.SetParent(collision.transform);
         }
-
+        if (collision.gameObject.CompareTag("ManualPlatform"))
+        {
+            Debug.Log("수동플랫폼 호출됨");
+            transform.SetParent(collision.transform);
+        }
         if (collision.gameObject.CompareTag("Alien"))
         {
             transform.position = initialPosition;
-
         }
 
         if (collision.gameObject.CompareTag("Spike"))
         {
             transform.position = initialPosition;
-
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Platform"))
+        {
+            transform.SetParent(null);
+        }
+        if (collision.gameObject.CompareTag("ManualPlatform"))
         {
             transform.SetParent(null);
         }

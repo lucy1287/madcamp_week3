@@ -200,6 +200,10 @@ MonoBehaviour:
   groundCheck: {fileID: 1944927194408692824}
   groundCheckRadius: 0.2
   bullet: 0
+  jewel: 0
+  bulletPrefab: {fileID: 0}
+  bulletSpawnPoint: {fileID: 0}
+  bulletNumText: {fileID: 0}
   popup: {fileID: 0}
 --- !u!95 &6472583973919646112
 Animator:

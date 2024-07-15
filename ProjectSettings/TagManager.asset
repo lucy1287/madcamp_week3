@@ -8,7 +8,12 @@ TagManager:
   - Platform
   - Ground
   - Portal
-  - BulletBox
+  - Bullet
+  - Jewel
+  - RandomBox
+  - BulletShooting
+  - Lever
+  - ManualPlatform
   - Alien
   - Spike
   layers:
