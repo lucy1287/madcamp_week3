@@ -12,6 +12,8 @@ TagManager:
   - Jewel
   - RandomBox
   - BulletShooting
+  - Lever
+  - ManualPlatform
   layers:
   - Default
   - TransparentFX

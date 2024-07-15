@@ -106,11 +106,20 @@ public class Astronaut : MonoBehaviour
             Debug.Log("플랫폼 호출됨");
             transform.SetParent(collision.transform);
         }
+        if (collision.gameObject.CompareTag("ManualPlatform"))
+        {
+            Debug.Log("수동플랫폼 호출됨");
+            transform.SetParent(collision.transform);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Platform"))
+        {
+            transform.SetParent(null);
+        }
+        if (collision.gameObject.CompareTag("ManualPlatform"))
         {
             transform.SetParent(null);
         }
