@@ -9,11 +9,13 @@ TagManager:
   - Ground
   - Portal
   - BulletBox
+  - Alien
+  - Spike
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Player
