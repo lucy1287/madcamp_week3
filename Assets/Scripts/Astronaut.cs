@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Astronaut : MonoBehaviour
+public class Astronaut : MonoBehaviourPunCallbacks
 {
     public PortalManager portalManager;
 
@@ -17,20 +18,31 @@ public class Astronaut : MonoBehaviour
     private bool isGrounded;
     private bool isClimbing;
     private float verticalMove;
+    private Vector3 initialPosition;
+    private PhotonView photonView;
+    public GameObject popup; 
+    private BoxCollider2D boxCollider; 
 
     void Start()
     {
         Debug.Log("확인 호출됨");
         rb = GetComponent<Rigidbody2D>();
+        photonView = GetComponent<PhotonView>();
+        boxCollider = GetComponent<BoxCollider2D>();
 
-        if (rb == null)
+        if (rb == null || photonView == null)
         {
-            Debug.LogError("Rigidbody2D component missing from this game object. Please add one.");
+            Debug.LogError("Rigidbody2D or PhotonView component missing from this game object. Please add one.");
             return;
         }
 
+        Debug.Log("Phothon : " + photonView);
+
         // Z축 회전 고정
         rb.freezeRotation = true;
+        // Z축 회전 고정
+        photonView.RPC("SetFreezeRotation", RpcTarget.AllBuffered, true);
+        photonView.RPC("SyncBoxCollider", RpcTarget.AllBuffered, boxCollider.size, boxCollider.offset);
 
         // groundCheck GameObject를 캐릭터의 발 아래에 위치한 빈 GameObject로 설정
         groundCheck = transform.Find("GroundCheck").gameObject;
@@ -40,6 +52,11 @@ public class Astronaut : MonoBehaviour
             return;
         }
 
+         // 초기 위치 저장
+        initialPosition = transform.position;
+        Debug.Log("처음 위치 : " + initialPosition);
+        photonView = GetComponent<PhotonView>();
+
         // BoxCollider2D 추가
         BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
         collider.size = new Vector2(4.0f, 4.0f); // 적절한 크기 설정
@@ -48,12 +65,32 @@ public class Astronaut : MonoBehaviour
         {
             portalManager = FindObjectOfType<PortalManager>();
         }
+
+        popup.SetActive(false); 
+    }
+
+    [PunRPC]
+    void SetFreezeRotation(bool freeze)
+    {
+        rb.freezeRotation = freeze;
+    }
+
+    [PunRPC]
+    void SyncBoxCollider(Vector2 size, Vector2 offset)
+    {
+        if (boxCollider != null)
+        {
+            boxCollider.size = size;
+            boxCollider.offset = offset;
+        }
     }
 
     void Update()
     {
         // Rigidbody2D가 없으면 업데이트 중단
         if (rb == null) return;
+
+        if (!photonView.IsMine) return;
 
         // 방향키 입력 받기
         float horizontalMove = Input.GetAxis("Horizontal");
@@ -87,6 +124,18 @@ public class Astronaut : MonoBehaviour
             Debug.Log("플랫폼 호출됨");
             transform.SetParent(collision.transform);
         }
+
+        if (collision.gameObject.CompareTag("Alien"))
+        {
+            transform.position = initialPosition;
+
+        }
+
+        if (collision.gameObject.CompareTag("Spike"))
+        {
+            transform.position = initialPosition;
+
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -115,7 +164,9 @@ public class Astronaut : MonoBehaviour
         {
            Debug.Log("포털 호출됨");
            portalManager.TeleportPlayer(gameObject, collision.GetComponent<Portal>());
+           popup.SetActive(true);
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
