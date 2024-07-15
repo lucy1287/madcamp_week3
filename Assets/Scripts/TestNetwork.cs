@@ -175,8 +175,8 @@ public class TestNetwork : MonoBehaviourPunCallbacks
         Debug.Log("방에 입장함: " + PhotonNetwork.CurrentRoom.Name);
         StatusText.text = "방에 입장함: " + PhotonNetwork.CurrentRoom.Name;
 
-      if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
-         {
+    if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
             // 첫 번째 플레이어는 왼쪽 초기 위치에서 생성
             Vector3 spawnPosition = new Vector3(-7.6f, -16.22f, 0);
             GameObject playerInstance = PhotonNetwork.Instantiate(PlayerPrefab.name, spawnPosition, Quaternion.identity);
