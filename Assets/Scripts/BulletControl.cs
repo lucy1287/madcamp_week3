@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class BulletBoxControl : MonoBehaviour
+public class BulletControl : MonoBehaviour
 {
     private GameObject player;
     public int bullet_num = 1;
@@ -25,7 +25,7 @@ public class BulletBoxControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("BulletBox Trigger 호출됨");
+        Debug.Log("Bullet Trigger 호출됨");
         if(collision.CompareTag("Player"))
         {
             Destroy(gameObject);

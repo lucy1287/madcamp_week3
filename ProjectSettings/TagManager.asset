@@ -8,7 +8,9 @@ TagManager:
   - Platform
   - Ground
   - Portal
-  - BulletBox
+  - Bullet
+  - Jewel
+  - RandomBox
   layers:
   - Default
   - TransparentFX
