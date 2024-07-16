@@ -19,7 +19,7 @@ public class ManualPlatform : MonoBehaviour
         if (isMoving)
         {
             MovePlatform();
-        }
+        }   
     }
 
     public void MovePlatform()

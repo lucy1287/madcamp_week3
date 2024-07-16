@@ -13,6 +13,24 @@ public class BulletControl : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // TMP_Text를 동적으로 찾기
+        GameObject bulletNumTextObject = GameObject.FindGameObjectWithTag("BulletText");
+        if (bulletNumTextObject != null)
+        {
+            bulletNumText = bulletNumTextObject.GetComponent<TMP_Text>();
+        }
+        else
+        {
+            Debug.LogError("bulletNumText object not found.");
+            return;
+        }
+
+        if (bulletNumText == null)
+        {
+            Debug.LogError("TMP_Text component not found on bulletNumText object.");
+            return;
+        }
         // 보유한 총알 개수 표시
         bulletNumText.text = "Bullet: " + 0.ToString();
     }
@@ -28,6 +46,7 @@ public class BulletControl : MonoBehaviour
         Debug.Log("Bullet Trigger 호출됨");
         if(collision.CompareTag("Player"))
         {
+            player = collision.gameObject; // 충돌한 객체를 player로 설정
             Destroy(gameObject);
             ItemGain();
         }   
@@ -35,6 +54,12 @@ public class BulletControl : MonoBehaviour
 
     protected virtual void ItemGain() 
     { 
+        if (player == null)
+        {
+            Debug.LogError("Player object not set.");
+            return;
+        }
+        
         Astronaut astronaut = player.GetComponent<Astronaut>();
         if(astronaut != null)
         {
