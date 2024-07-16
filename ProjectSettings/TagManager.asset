@@ -16,6 +16,8 @@ TagManager:
   - ManualPlatform
   - Alien
   - Spike
+  - BulletText
+  - JewelText
   layers:
   - Default
   - TransparentFX

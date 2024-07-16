@@ -7,13 +7,31 @@ public class JewelControl : MonoBehaviour
 {
     private GameObject player;
     public int jewel_num = 1;
-    public TMP_Text jewelNumText;
+    private TMP_Text jewelNumText;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        // 보유한 총알 개수 표시
+
+        // TMP_Text를 동적으로 찾기
+        GameObject jewelNumTextObject = GameObject.FindGameObjectWithTag("JewelText");
+        if (jewelNumTextObject != null)
+        {
+            jewelNumText = jewelNumTextObject.GetComponent<TMP_Text>();
+        }
+        else
+        {
+            Debug.LogError("JewelNumText object not found.");
+            return;
+        }
+
+        if (jewelNumText == null)
+        {
+            Debug.LogError("TMP_Text component not found on JewelNumText object.");
+            return;
+        }
+        // 보유한 보석 개수 표시
         jewelNumText.text = "Jewel: " + 0.ToString();
     }
 

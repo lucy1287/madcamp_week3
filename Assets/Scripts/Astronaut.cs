@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class Astronaut : MonoBehaviourPunCallbacks
+public class Astronaut : MonoBehaviour
 {
     public PortalManager portalManager;
 
@@ -25,23 +25,46 @@ public class Astronaut : MonoBehaviourPunCallbacks
     private float verticalMove;
     private Vector3 initialPosition;
     private PhotonView photonView;
-    public GameObject popup; 
+    // public GameObject popup; 
     private BoxCollider2D boxCollider; 
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     void Start()
     {
+        Debug.Log("Astronaut Start method called");
+
+        // 스크립트 시작 시 `TMP_Text`를 동적으로 할당
+        if (bulletNumText == null)
+        {
+            bulletNumText = GameObject.Find("BulletNumText").GetComponent<TMP_Text>();
+            if (bulletNumText == null)
+            {
+                Debug.LogError("BulletNumText not found in the scene. Please ensure the object exists and has a TMP_Text component.");
+            }
+        }
+        
         Debug.Log("확인 호출됨");
+
         rb = GetComponent<Rigidbody2D>();
         photonView = GetComponent<PhotonView>();
         boxCollider = GetComponent<BoxCollider2D>();
 
-        if (rb == null || photonView == null)
+        if (rb == null)
         {
-            Debug.LogError("Rigidbody2D or PhotonView component missing from this game object. Please add one.");
+            Debug.LogError("Rigidbody2D component missing from this game object. Please add one.");
+        }
+
+        if (photonView == null)
+        {
+            Debug.LogError("PhotonView component missing from this game object. Please add one.");
             return;
         }
 
-        Debug.Log("Phothon : " + photonView);
+        Debug.Log("PhotonView: " + photonView);
 
         // Z축 회전 고정
         rb.freezeRotation = true;
@@ -71,7 +94,7 @@ public class Astronaut : MonoBehaviourPunCallbacks
             portalManager = FindObjectOfType<PortalManager>();
         }
 
-        popup.SetActive(false); 
+        // popup.SetActive(false); 
     }
 
     [PunRPC]
@@ -92,10 +115,10 @@ public class Astronaut : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         // Rigidbody2D가 없으면 업데이트 중단
         if (rb == null) return;
-
-        if (!photonView.IsMine) return;
 
         // 방향키 입력 받기
         float horizontalMove = Input.GetAxis("Horizontal");
@@ -123,6 +146,7 @@ public class Astronaut : MonoBehaviourPunCallbacks
         // 총 쏘기
         if (Input.GetKeyDown(KeyCode.W) && bullet > 0)
         {
+            Debug.Log("shoot");
             Shoot();
         }
     }
@@ -150,11 +174,13 @@ public class Astronaut : MonoBehaviourPunCallbacks
         }
         if (collision.gameObject.CompareTag("Alien"))
         {
+            Debug.Log("외계인 호출됨");
             transform.position = initialPosition;
         }
 
         if (collision.gameObject.CompareTag("Spike"))
         {
+            Debug.Log("움직가시 호출됨");
             transform.position = initialPosition;
         }
     }
@@ -187,9 +213,9 @@ public class Astronaut : MonoBehaviourPunCallbacks
 
         if (collision.CompareTag("Portal"))
         {
-           Debug.Log("포털 호출됨");
-           portalManager.TeleportPlayer(gameObject, collision.GetComponent<Portal>());
-           popup.SetActive(true);
+            Debug.Log("포털 호출됨");
+            portalManager.TeleportPlayer(gameObject, collision.GetComponent<Portal>());
+            // popup.SetActive(true);
         }
 
     }
@@ -207,4 +233,5 @@ public class Astronaut : MonoBehaviourPunCallbacks
             isGrounded = false;
         }
     }
+
 }
