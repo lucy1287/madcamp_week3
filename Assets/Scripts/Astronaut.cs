@@ -150,15 +150,33 @@ public class Astronaut : MonoBehaviour
         {
             Debug.Log("shoot");
             Shoot();
+            bullet--;
+            bulletNumText.text = "Bullet: " + bullet.ToString();
+            Debug.Log("BulletNum: "+ bullet.ToString());
         }
     }
-
+    
     void Shoot()
     {
-        // 총알 생성
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-        bullet--;
-        bulletNumText.text = "Bullet: " + bullet.ToString();
+        Vector3 bulletPosition = bulletSpawnPoint.position + new Vector3(1f, 2f, 0f);
+        GameObject Bullet = PhotonNetwork.Instantiate(bulletPrefab.name, bulletPosition, bulletSpawnPoint.rotation);
+        PhotonView bulletPhotonView = Bullet.GetComponent<PhotonView>();
+        photonView.RPC("BulletOwnerSet", RpcTarget.AllBuffered, bulletPhotonView.ViewID);
+    }
+    
+    [PunRPC]
+    void BulletOwnerSet(int viewID)
+    {
+        PhotonView bulletPhotonView = PhotonView.Find(viewID);
+        if (bulletPhotonView != null)
+        {
+            bulletPhotonView.TransferOwnership(photonView.OwnerActorNr);
+            Debug.Log("Bullet ownership transferred. Owner: " + bulletPhotonView.OwnerActorNr);
+        }
+        else
+        {
+            Debug.LogError("Bullet PhotonView not found for ViewID: " + viewID);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -179,7 +197,6 @@ public class Astronaut : MonoBehaviour
             Debug.Log("외계인 호출됨");
             transform.position = initialPosition;
         }
-
         if (collision.gameObject.CompareTag("Spike"))
         {
             Debug.Log("움직가시 호출됨");
@@ -236,6 +253,24 @@ public class Astronaut : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    public void ResetPosition(int viewID)
+    {
+        Debug.Log("ResetPosition called. PhotonView ID: " + photonView.ViewID + " Passed ID: " + viewID);
+        Debug.LogWarning("ResetPosition is being called!");
+
+        // 해당 viewID가 자신의 viewID와 일치하는 경우에만 위치를 리셋합니다.
+        if (photonView.ViewID == viewID)
+        {
+            Debug.Log("Resetting player position to initial position. PhotonView ID: " + photonView.ViewID);
+            transform.position = initialPosition;
+            if (photonView.IsMine)
+            {
+                Debug.Log("Resetting velocity for player. PhotonView ID: " + photonView.ViewID);
+                // 클라이언트의 속도를 초기화하여 움직임을 멈추게 함
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+        }
     public void OnReachedFinishLine()
     {
         Debug.Log("플레이어가 도착지점에 도착했습니다!");
