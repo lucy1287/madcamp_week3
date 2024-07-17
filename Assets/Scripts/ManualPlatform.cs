@@ -3,7 +3,7 @@ using UnityEngine;
 public class ManualPlatform : MonoBehaviour
 {
     public float speed = 2.0f; // 속도
-    public float height = 0.5f; // 이동할 최대 높이
+    public float height = 1.0f; // 이동할 최대 높이
 
     private Vector3 originalPosition; // 초기 위치
     private bool isMoving = false; // 플랫폼이 움직이고 있는지 확인

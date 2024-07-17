@@ -176,7 +176,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("join room");
-        PhotonNetwork.LoadLevel("Scene2");
+        PhotonNetwork.LoadLevel("New Scene");
     }
 
 }
