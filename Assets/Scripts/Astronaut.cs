@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class Astronaut : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class Astronaut : MonoBehaviour
     private PhotonView photonView;
     // public GameObject popup; 
     private BoxCollider2D boxCollider; 
+    private bool hasReachedFinishLine = false;
 
     void Awake()
     {
@@ -234,4 +236,36 @@ public class Astronaut : MonoBehaviour
         }
     }
 
+    public void OnReachedFinishLine()
+    {
+        Debug.Log("플레이어가 도착지점에 도착했습니다!");
+        if (hasReachedFinishLine)
+            return;
+
+        hasReachedFinishLine = true;
+
+        // 씬 동기화를 비활성화합니다.
+        PhotonNetwork.AutomaticallySyncScene = false;
+
+         // 다른 모든 플레이어에게 패자를 알립니다.
+        photonView.RPC("AnnounceLoser", RpcTarget.Others);
+        LoadVictoryScene();
+    }
+
+     [PunRPC]
+    public void AnnounceLoser()
+    {
+        LoadDefeatScene();
+    }
+
+
+    private void LoadVictoryScene()
+    {
+        SceneManager.LoadScene("VictoryScene");
+    }
+
+    private void LoadDefeatScene()
+    {
+        SceneManager.LoadScene("LoseScene");
+    }
 }
