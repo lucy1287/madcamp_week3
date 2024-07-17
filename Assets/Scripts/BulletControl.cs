@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class BulletControl : MonoBehaviour
 {
-    private GameObject player;
     public int bullet_num = 1;
     public TMP_Text bulletNumText;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-
         // TMP_Text를 동적으로 찾기
         GameObject bulletNumTextObject = GameObject.FindGameObjectWithTag("BulletText");
         if (bulletNumTextObject != null)
@@ -46,13 +44,13 @@ public class BulletControl : MonoBehaviour
         Debug.Log("Bullet Trigger 호출됨");
         if(collision.CompareTag("Player"))
         {
-            player = collision.gameObject; // 충돌한 객체를 player로 설정
+            GameObject player = collision.gameObject;
             Destroy(gameObject);
-            ItemGain();
+            ItemGain(player);
         }   
     }
 
-    protected virtual void ItemGain() 
+    protected virtual void ItemGain(GameObject player) 
     { 
         if (player == null)
         {
@@ -60,16 +58,24 @@ public class BulletControl : MonoBehaviour
             return;
         }
         
+        PhotonView playerPhotonView = player.GetComponent<PhotonView>();
         Astronaut astronaut = player.GetComponent<Astronaut>();
-        if(astronaut != null)
+        if (playerPhotonView != null && playerPhotonView.IsMine)
         {
-            astronaut.bullet += bullet_num;
-            bulletNumText.text = "Bullet: " + astronaut.bullet.ToString();
-            Debug.Log("Bullet acquired! Total bullets: " + astronaut.bullet);
+            if (astronaut != null)
+            {
+                astronaut.bullet += bullet_num;
+                bulletNumText.text = "Bullet: " + astronaut.bullet.ToString();
+                Debug.Log("Bullet acquired! Total bullets: " + astronaut.bullet);
+            }
+            else
+            {
+                Debug.LogError("Astronaut component not found on player object.");
+            }
         }
         else
         {
-            Debug.LogError("Astronaut component not found on player object.");
+            Debug.Log("This player object is not owned by the local player.");
         }
     }
 }

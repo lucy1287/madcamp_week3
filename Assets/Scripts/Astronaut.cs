@@ -271,6 +271,7 @@ public class Astronaut : MonoBehaviour
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             }
         }
+    }
     public void OnReachedFinishLine()
     {
         Debug.Log("플레이어가 도착지점에 도착했습니다!");
