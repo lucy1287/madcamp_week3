@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Spikes : MonoBehaviour
 {
-    public float moveDistance = 5.0f;   // 움직일 거리
+    public float moveDistance = 4.0f;   // 움직일 거리
     public float moveSpeed = 5.0f;      // 움직임 속도
     public float pauseTime = 1.0f;      // 방향 전환 전 대기 시간
 
